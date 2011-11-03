@@ -1,0 +1,28 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- CONFIGURAÇÕES DE CONEXÃO -->
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">root</property>
+		
+		<!-- MYSQL -->
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/novo</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		
+		<!-- POSTGRES -->
+		<!--<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/personal</property>
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>-->
+		
+		<!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+		
+		<!-- ENTIDADES -->
+		<mapping class="br.image.entity.Book" />
+	</session-factory>
+</hibernate-configuration>

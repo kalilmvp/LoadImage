@@ -1,0 +1,87 @@
+package br.imagem.test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import br.image.entity.Book;
+import br.imagem.dao.BookDAO;
+
+/**
+ * JUnit Class to test the download and upload of images.
+ * 
+ * @author kalilmvp
+ * @date 19/10/2011
+ *
+ */
+public class TestBook {
+	
+	private static final String FILE_PATH = "E:\\images\\foto1.jpg";
+	private static final String FILE_PATH_SAVED = "E:\\images\\foto2.jpg";
+	
+	private static BookDAO bookDAO;
+	
+	private static Book book;
+	
+	@BeforeClass
+	public static void runBeforeClass() {
+		bookDAO = new BookDAO();
+		book = new Book();
+	}
+	
+	public static void runAfterClass() {
+		bookDAO = null;
+		book = new Book();
+	}
+	
+	/**
+	 * Save a {@link Book} test.
+	 */
+	@Test
+	public void saveBook() {
+		File file = new File(FILE_PATH);
+		if (file.exists()) {
+			byte [] bytes = new byte[(int)file.length()];
+			
+			try {
+				FileInputStream fileInputStream = new FileInputStream(file);
+				fileInputStream.read(bytes);
+				fileInputStream.close();
+				
+				book.setName("TESTING");
+				book.setImage(bytes);
+				
+				bookDAO.save(book);
+				
+				Assert.assertNotNull(book.getId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("CAMINHO ERRADO");
+		}
+	}
+	
+	/**
+	 * Get a book test.
+	 * Testing if the same image that was stored recently can be uploaded to a new one. 
+	 */
+	@Test
+	public void getBook() {
+		Book bookConsulted = bookDAO.load(book.getId());
+		
+		Assert.assertNotNull(book);
+		
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(FILE_PATH_SAVED);
+			fileOutputStream.write(bookConsulted.getImage());
+			fileOutputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
