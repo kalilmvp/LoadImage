@@ -3,7 +3,11 @@ package br.imagem.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,6 +37,7 @@ public class TestBook {
 		book = new Book();
 	}
 	
+	@AfterClass
 	public static void runAfterClass() {
 		bookDAO = null;
 		book = new Book();
@@ -43,14 +48,10 @@ public class TestBook {
 	 */
 	@Test
 	public void saveBook() {
-		File file = new File(FILE_PATH);
-		if (file.exists()) {
-			byte [] bytes = new byte[(int)file.length()];
-			
+		Path path = Paths.get(FILE_PATH);
+		if (Files.exists(path)) {
 			try {
-				FileInputStream fileInputStream = new FileInputStream(file);
-				fileInputStream.read(bytes);
-				fileInputStream.close();
+				byte [] bytes = Files.readAllBytes(path);
 				
 				book.setName("TESTING");
 				book.setImage(bytes);
@@ -62,7 +63,7 @@ public class TestBook {
 				e.printStackTrace();
 			}
 		} else {
-			System.out.println("CAMINHO ERRADO");
+			System.out.println("WRONG PATH");
 		}
 	}
 	
@@ -74,12 +75,12 @@ public class TestBook {
 	public void getBook() {
 		Book bookConsulted = bookDAO.load(book.getId());
 		
-		Assert.assertNotNull(book);
+		Assert.assertNotNull(book.getImage());
 		
 		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(FILE_PATH_SAVED);
-			fileOutputStream.write(bookConsulted.getImage());
-			fileOutputStream.close();
+			Path path = Paths.get(FILE_PATH_SAVED);
+			
+			Files.write(path, bookConsulted.getImage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
