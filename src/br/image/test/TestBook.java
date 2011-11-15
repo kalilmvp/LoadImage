@@ -1,8 +1,5 @@
-package br.imagem.test;
+package br.image.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,8 +9,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import br.image.dao.BookDAO;
 import br.image.entity.Book;
-import br.imagem.dao.BookDAO;
 
 /**
  * JUnit Class to test the download and upload of images.

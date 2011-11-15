@@ -1,5 +1,4 @@
-package br.imagem.dao;
-
+package br.image.dao;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
